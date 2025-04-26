@@ -1,4 +1,4 @@
-const NFT = require("../models/NFT");
+const NFT = require('../models/nftModel');
 const { ethers } = require("ethers");
 require("dotenv").config();
 
@@ -9,6 +9,14 @@ const contractAbi = require("../abi/ProofOfGreenNFT.json");
 const contractAddress = process.env.CONTRACT_ADDRESS;
 
 const contract = new ethers.Contract(contractAddress, contractAbi.abi, signer);
+
+const getTotalSupply = async (req, res) => {
+  try {
+    res.json({ totalSupply: "10000000000" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const mintNFT = async (req, res) => {
   const { to, metadataURI } = req.body;
@@ -30,7 +38,6 @@ const mintNFT = async (req, res) => {
     await newNFT.save();
 
     console.log("NFT minted and saved:", newNFT);
-
     res.json({ message: "NFT Minted Successfully", txHash: tx.hash });
   } catch (error) {
     console.error(error.message);
@@ -38,4 +45,7 @@ const mintNFT = async (req, res) => {
   }
 };
 
-module.exports = { mintNFT };
+module.exports = { 
+  getTotalSupply,
+  mintNFT
+};

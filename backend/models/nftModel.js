@@ -1,5 +1,5 @@
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const nftSchema = new mongoose.Schema({
   tokenId: { type: String, required: true },
@@ -10,4 +10,4 @@ const nftSchema = new mongoose.Schema({
 
 const NFT = mongoose.model("NFT", nftSchema);
 
-module.exports = NFT;
+export default NFT;
