@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import type { Config } from 'tailwindcss'
+=======
+import type { Config } from 'tailwindcss';
+>>>>>>> 766287626570ba85fe10928c86ea19c8d12db6d8
 
 const config: Config = {
   darkMode: ['class'],
