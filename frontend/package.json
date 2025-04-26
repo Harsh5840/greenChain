@@ -75,7 +75,6 @@
     "viem": "^2.7.8",
     "wagmi": "^2.5.7",
     "zod": "^3.23.8"
-<<<<<<< HEAD
   },
   "main": "next.config.js",
   "directories": {
@@ -86,7 +85,4 @@
   "license": "ISC",
   "description": ""
 }
-=======
-  }
-}
->>>>>>> 766287626570ba85fe10928c86ea19c8d12db6d8
+
