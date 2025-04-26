@@ -10,21 +10,21 @@ export const metadata = {
   description: 'Sustainable blockchain solutions',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { AuthProvider } from '@/hooks/useAuth';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <WagmiProvider>
-          <TopNavbar />
-          <main className="pt-16">
-            {children}
-          </main>
-        </WagmiProvider>
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <WagmiProvider>
+            <TopNavbar />
+            <main className="pt-16">
+              {children}
+            </main>
+          </WagmiProvider>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
