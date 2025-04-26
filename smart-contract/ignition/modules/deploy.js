@@ -1,12 +1,8 @@
-async function main() {
-    const ProofOfGreenNFT = await ethers.getContractFactory("ProofOfGreenNFT");
-    const pogNFT = await ProofOfGreenNFT.deploy();
-    await pogNFT.deployed();
-  
-    console.log(`ProofOfGreenNFT deployed at: ${pogNFT.address}`);
-}
-  
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+
+const ProofOfGreenNFTModule = buildModule("ProofOfGreenNFTModule", (m) => {
+  const pogNFT = m.contract("ProofOfGreenNFT", []);
+  return { pogNFT };
 });
+
+export default ProofOfGreenNFTModule;

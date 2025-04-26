@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract ProofOfGreenNFT is ERC721URIStorage, Ownable {
     uint256 public tokenIdCounter;
 
-    constructor() ERC721("ProofOfGreenNFT", "POG") {}
+    constructor() ERC721("ProofOfGreenNFT", "POG") Ownable(msg.sender) {} // Pass initial owner to Ownable constructor
 
     function mintGreenNFT(address to, string memory metadataURI) public onlyOwner {
         uint256 newTokenId = tokenIdCounter;
