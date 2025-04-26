@@ -1,39 +1,28 @@
 // server.js
 const express = require("express");
 const dotenv = require("dotenv");
-const { ethers } = require("ethers");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const nftRoutes = require("./routes/nftRoutes");
+const cors = require("cors");
 
 dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch((error) => console.log('MongoDB connection error:', error));
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Basic endpoint to check server is working
-app.get("/", (req, res) => {
-  res.send("Backend server is up and running!");
-});
+app.use(express.json());
+app.use(cors());    
+app.use(bodyParser.json());
 
-// Ethereum Connection (using ethers.js)
-const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
 
-// Sample route to interact with the deployed smart contract
-app.get("/getTotalSupply", async (req, res) => {
-  const contractAddress = process.env.CONTRACT_ADDRESS;   //
-  const abi = [
-    "function totalSupply() view returns (uint256)"
-  ];
+app.use("/api/nft", nftRoutes);
 
-  const contract = new ethers.Contract(contractAddress, abi, provider);
 
-  try {
-    const totalSupply = await contract.totalSupply();
-    res.json({ totalSupply: totalSupply.toString() });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
