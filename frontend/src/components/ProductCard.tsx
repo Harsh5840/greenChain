@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { toast } from "react-toastify";
 
 export default function ProductCard({ product }: { product: { 
@@ -13,7 +14,7 @@ export default function ProductCard({ product }: { product: {
   };
   return (
     <div className="bg-white rounded-lg shadow p-4 flex flex-col gap-2">
-      <img src={product.image} alt={product.name} className="h-32 object-contain mb-2" />
+      <Image src={product.image} alt={product.name} className="h-32 object-contain mb-2" />
       <div className="font-bold text-lg">{product.name}</div>
       <div className="text-gray-600">{product.description}</div>
       <div className="text-green-700 font-semibold">Price: {product.price} GreenTokens</div>
