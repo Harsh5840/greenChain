@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { Product } from '@/lib/types';
 import { purchaseProduct } from '@/lib/api';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Image from 'next/image';
 
 interface ProductCardProps {
   product: Product;
@@ -49,9 +50,11 @@ export function ProductCard({ product, userBalance, onPurchase }: ProductCardPro
     >
       <Card className="h-full overflow-hidden border-green-100 dark:border-green-900/50 hover:border-green-300 dark:hover:border-green-700 transition-colors">
         <div className="h-48 overflow-hidden relative">
-          <img 
+          <Image
             src={product.image || "https://images.pexels.com/photos/1470168/pexels-photo-1470168.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
             alt={product.name}
+            height={400}
+            width={400}
             className="w-full h-full object-cover"
           />
           <div className="absolute top-3 right-3">
@@ -81,7 +84,7 @@ export function ProductCard({ product, userBalance, onPurchase }: ProductCardPro
           <Dialog open={showDialog} onOpenChange={setShowDialog}>
             <DialogTrigger asChild>
               <Button 
-                size="sm"
+             
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
                 Buy Now
@@ -94,13 +97,13 @@ export function ProductCard({ product, userBalance, onPurchase }: ProductCardPro
                   Are you sure you want to purchase {product.name} for {product.price} GreenTokens?
                   {!canPurchase && (
                     <p className="mt-2 text-red-500">
-                      You don't have enough GreenTokens. Current balance: {userBalance} GreenTokens
+                      You dont have enough GreenTokens. Current balance: {userBalance} GreenTokens
                     </p>
                   )}
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setShowDialog(false)}>Cancel</Button>
+                <Button onClick={() => setShowDialog(false)}>Cancel</Button>
                 <Button 
                   onClick={handlePurchase} 
                   disabled={isLoading || !canPurchase}

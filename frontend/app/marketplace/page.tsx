@@ -182,6 +182,8 @@ export default function MarketplacePage() {
               type="text"
               placeholder="Search products..."
               value={searchQuery}
+              height={40}
+              width={400}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 bg-green-50/50 dark:bg-green-900/10 border-green-200 dark:border-green-800 focus:border-green-300 dark:focus:border-green-700"
             />

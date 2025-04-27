@@ -6,6 +6,7 @@ import { ArrowRight, Leaf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AnimatedComponent from '@/components/AnimatedComponent';
 import { ThreeCards } from '@/components/ThreeCards';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -47,8 +48,7 @@ export default function Home() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     asChild
-                    size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white font-medium"
+                    className="h-11 px-8bg-green-600 hover:bg-green-700 text-white font-medium"
                   >
                     <Link href="/register">
                       Get Started
@@ -57,9 +57,8 @@ export default function Home() {
                   </Button>
                   <Button
                     asChild
-                    variant="outline"
-                    size="lg"
-                    className="border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30"
+                    className="border border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30"
+  
                   >
                     <Link href="/about">Learn More</Link>
                   </Button>
@@ -68,8 +67,10 @@ export default function Home() {
             </div>
             
             <AnimatedComponent animation="fadeIn" delay={0.3} className="hidden lg:block">
-              <img
+              <Image
                 src="https://images.pexels.com/photos/3768005/pexels-photo-3768005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                width={1260}
+                height={750}
                 alt="Eco-friendly activities"
                 className="rounded-xl shadow-xl max-w-full h-auto"
               />
@@ -149,8 +150,10 @@ export default function Home() {
                 className="bg-white dark:bg-green-950/30 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="h-48 overflow-hidden">
-                  <img 
+                  <Image
                     src={product.image} 
+                    width={1260}
+                    height={750}
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
@@ -162,7 +165,7 @@ export default function Home() {
                     <span className="text-green-600 dark:text-green-400 font-semibold">{product.price} GreenTokens</span>
                     <Button
                       asChild
-                      variant="outline"
+                    
                       className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-900/30"
                     >
                       <Link href="/marketplace">View Details</Link>
@@ -197,7 +200,6 @@ export default function Home() {
             </p>
             <Button
               asChild
-              size="lg"
               className="bg-white text-green-700 hover:bg-green-50"
             >
               <Link href="/register">

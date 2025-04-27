@@ -67,6 +67,11 @@ export default function ProfilePage() {
                 </div>
                 <CardTitle>{user.email}</CardTitle>
                 <CardDescription>GreenChain Member</CardDescription>
+                {user.walletAddress && (
+                  <div className="mt-2 text-sm text-muted-foreground">
+                    Wallet: {user.walletAddress}
+                  </div>
+                )}
               </CardHeader>
               <CardContent className="text-center">
                 <div className="flex items-center justify-center space-x-2 mb-4">
@@ -78,7 +83,7 @@ export default function ProfilePage() {
               <CardFooter>
                 <Button 
                   onClick={logout} 
-                  variant="outline" 
+               
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
@@ -108,7 +113,7 @@ export default function ProfilePage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-sm font-medium">Email Address</label>
-                        <Button size="sm" variant="ghost" className="h-8 px-2">
+                        <Button   className="h-8 px-2">
                           <Edit className="h-3.5 w-3.5 mr-1" />
                           <span className="text-xs">Edit</span>
                         </Button>
@@ -122,7 +127,7 @@ export default function ProfilePage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-sm font-medium">Password</label>
-                        <Button size="sm" variant="ghost" className="h-8 px-2">
+                        <Button  className="h-8 px-2">
                           <Edit className="h-3.5 w-3.5 mr-1" />
                           <span className="text-xs">Change</span>
                         </Button>
@@ -184,7 +189,7 @@ export default function ProfilePage() {
                           <Dialog open={showDisconnectDialog} onOpenChange={setShowDisconnectDialog}>
                             <DialogTrigger asChild>
                               <Button 
-                                variant="outline" 
+                           
                                 className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                               >
                                 Disconnect Wallet
@@ -198,10 +203,10 @@ export default function ProfilePage() {
                                 </DialogDescription>
                               </DialogHeader>
                               <DialogFooter>
-                                <Button variant="outline" onClick={() => setShowDisconnectDialog(false)}>Cancel</Button>
+                                <Button  onClick={() => setShowDisconnectDialog(false)}>Cancel</Button>
                                 <Button 
                                   onClick={handleDisconnectWallet}
-                                  variant="destructive"
+                                  
                                 >
                                   Disconnect
                                 </Button>
@@ -266,7 +271,7 @@ export default function ProfilePage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline" className="w-full">
+                    <Button className="w-full">
                       View All Activity
                     </Button>
                   </CardFooter>

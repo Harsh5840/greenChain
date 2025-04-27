@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Task, Product, User } from './types';
 
-const baseURL = '/api';
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 export const api = axios.create({
   baseURL,
@@ -10,7 +10,7 @@ export const api = axios.create({
   }
 });
 
-export const getTasks = async (): Promise<Task[]> => {
+export const getAllTasks = async (): Promise<Task[]> => {
   try {
     const response = await api.get('/tasks');
     return response.data;
@@ -22,11 +22,27 @@ export const getTasks = async (): Promise<Task[]> => {
 
 export const completeTask = async (taskId: string): Promise<{ success: boolean; message: string }> => {
   try {
-    const response = await api.post('/tasks/complete', { taskId });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const response = await api.post('/tasks/complete', { 
+      taskId: taskId 
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error completing task:', error);
-    return { success: false, message: 'Failed to complete task' };
+    return {
+      success: false,
+      message: error.response?.data?.message || 'Failed to complete task'
+    };
   }
 };
 
@@ -52,7 +68,12 @@ export const purchaseProduct = async (productId: string): Promise<{ success: boo
 
 export const getUserProfile = async (): Promise<User | null> => {
   try {
-    const response = await api.get('/user/profile');
+    const token = localStorage.getItem('token');
+    const response = await api.get('/user/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching user profile:', error);
@@ -63,6 +84,9 @@ export const getUserProfile = async (): Promise<User | null> => {
 export const loginUser = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
   try {
     const response = await api.post('/auth/login', { email, password });
+    if (response.data.success) {
+      localStorage.setItem('token', response.data.token);
+    }
     return response.data;
   } catch (error) {
     console.error('Error logging in:', error);
@@ -70,9 +94,13 @@ export const loginUser = async (email: string, password: string): Promise<{ succ
   }
 };
 
-export const registerUser = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
+export const registerUser = async (email: string, password: string, walletAddress: string): Promise<{ success: boolean; message: string }> => {
   try {
-    const response = await api.post('/auth/register', { email, password });
+    const response = await api.post('/auth/register', { 
+      email,
+      password, 
+      walletAddress 
+    });
     return response.data;
   } catch (error) {
     console.error('Error registering:', error);

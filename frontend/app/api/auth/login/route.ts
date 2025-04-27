@@ -1,25 +1,52 @@
 import { NextResponse } from 'next/server';
+import { compare } from 'bcryptjs';
+import db from '@/lib/db';
+import jwt from 'jsonwebtoken';  // Add this import
 
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     
-    // In a real implementation, this would:
-    // 1. Check if the user exists
-    // 2. Verify the password
-    // 3. Create a session or token
+    // 1. Get database connection
+    const client = await db;
+    const usersCollection = client.db().collection('users');
     
-    // For mock purposes, we'll just return a success response
-    // (For demo, we'll accept any email/password)
+    // 2. Check if user exists
+    const user = await usersCollection.findOne({ email });
+    
+    if (!user) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "Invalid credentials" 
+      }, { status: 401 });
+    }
+
+    // 3. Verify password
+    const isValid = await compare(password, user.password);
+    if (!isValid) {
+      return NextResponse.json({ 
+        success: false, 
+        message: "Invalid credentials" 
+      }, { status: 401 });
+    }
+
+    // 3. Create a session or token
+    const token = jwt.sign(
+      { userId: user.id },
+      process.env.JWT_SECRET!,
+      { expiresIn: '1d' }
+    );
+
     return NextResponse.json({
       success: true,
-      message: "Login successful"
+      message: "Login successful",
+      token
     });
   } catch (error) {
     console.error('Error logging in:', error);
     return NextResponse.json({ 
       success: false, 
       message: "Failed to login" 
-    }, { status: 401 });
+    }, { status: 500 });
   }
 }

@@ -90,7 +90,10 @@ export function TopNavbar() {
                   {address && `${address.slice(0, 6)}...${address.slice(-4)}`}
                 </div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://api.dicebear.com/7.x/bottts/svg" alt="Avatar" />
+                  <AvatarImage src="https://api.dicebear.com/7.x/bottts/svg" 
+                  width={40}
+                  height={40}
+                  alt="Avatar" />
                   <AvatarFallback className="bg-green-100 text-green-800">
                     {address ? address.slice(0, 2) : 'GC'}
                   </AvatarFallback>

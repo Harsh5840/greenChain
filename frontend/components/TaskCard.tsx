@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { Task } from '@/lib/types';
 import { completeTask } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface TaskCardProps {
   task: Task;
@@ -30,13 +31,16 @@ export function TaskCard({ task, onComplete }: TaskCardProps) {
       const result = await completeTask(task.id);
       
       if (result.success) {
-        toast.success('Task completed successfully! GreenTokens added to your wallet.');
+        toast.success(result.message || 'Task completed successfully!');
         onComplete(task.id);
       } else {
         toast.error(result.message || 'Failed to complete task');
       }
-    } catch (error) {
-      toast.error('An error occurred while completing the task');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 
+                       error.message || 
+                       'An error occurred while completing the task';
+      toast.error(errorMessage);
       console.error('Error completing task:', error);
     } finally {
       setIsLoading(false);
@@ -50,9 +54,11 @@ export function TaskCard({ task, onComplete }: TaskCardProps) {
     >
       <Card className="h-full overflow-hidden border-green-100 dark:border-green-900/50 hover:border-green-300 dark:hover:border-green-700 transition-colors">
         <div className="h-48 overflow-hidden relative">
-          <img 
+          <Image
             src={task.image || "https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} 
             alt={task.title}
+            height={400}
+            width={400}
             className="w-full h-full object-cover"
           />
           <div className="absolute top-3 right-3">
@@ -87,7 +93,7 @@ export function TaskCard({ task, onComplete }: TaskCardProps) {
           <Button 
             onClick={handleComplete} 
             disabled={isLoading}
-            size="sm"
+            
             className="bg-green-600 hover:bg-green-700 text-white"
           >
             {isLoading ? 'Completing...' : 'Complete Task'}

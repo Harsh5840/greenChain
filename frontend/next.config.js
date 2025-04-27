@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  reactStrictMode: true,
   images: {
-    domains: ['api.dicebear.com'],
+    domains: ['images.pexels.com'],
   },
 };
 
